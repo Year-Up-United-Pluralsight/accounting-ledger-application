@@ -1,12 +1,34 @@
 package com.pluralsight;
-
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 
 public class Main {
 
     public static void main(String[] args){
+
+        // READS IN FILE
+        try {
+
+            // Creates FileReader object connected to csv file
+            FileReader filereader = new FileReader("src/main/resources/transactions.csv");
+
+            // Creates BufferedReader object connected
+            BufferedReader bufReader = new BufferedReader(filereader);
+
+            String input;
+
+            // Reads until there are no more lines of data
+            while((input = bufReader.readLine()) != null){
+                // System.out.println(input); // (Prints each line for confirmation if needed)
+            }
+
+            // Closes bufReader; release resources
+            bufReader.close();
+        }
+        catch (IOException e){
+
+            // Displays stack trace if error occurs
+            e.printStackTrace();
+        }
 
         displayHomeScreen();
 
