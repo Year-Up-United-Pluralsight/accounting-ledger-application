@@ -63,4 +63,17 @@ public class Transaction {
     public void setDate(String date) {
         this.date = date;
     }
+
+// MORE METHODS ------------------------------------------------------------------------------------------------------
+
+    // Adds/saves a deposit transaction to the csv file
+    public void addDeposit(Transaction transaction){
+
+    }
+
+    // Adds a debit transaction to the csv file
+    public void makePayment(Transaction transaction){
+
+    }
+
 }

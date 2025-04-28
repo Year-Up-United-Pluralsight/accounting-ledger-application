@@ -5,7 +5,7 @@ public class Main {
 
     public static void main(String[] args){
 
-        // READS IN FILE
+        // READS IN CSV FILE
         try {
 
             // Creates FileReader object connected to csv file
@@ -14,6 +14,7 @@ public class Main {
             // Creates BufferedReader object connected
             BufferedReader bufReader = new BufferedReader(filereader);
 
+            // Initializes variable for holding input
             String input;
 
             // Reads until there are no more lines of data
@@ -30,20 +31,9 @@ public class Main {
             e.printStackTrace();
         }
 
-        displayHomeScreen();
-
-    }
-
-
-
-    public static void displayHomeScreen(){
-
-        System.out.println("Welcome! Please select what you would like to do:\n" +
-                "(D) Add Deposit\n" +
-                "(P) Make Payment (Debit)\n" +
-                "(L) Ledger\n" +
-                "(X) Exit");
-
+        Console.displayHomeScreen();
+        Console.displayLedger();
+        Console.displayReports();
 
     }
 }
