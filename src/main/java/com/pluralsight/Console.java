@@ -10,11 +10,12 @@ public class Console {
     public static void displayHomeScreen(){
 
         // Displays home screen options; prompts user for choice
-        System.out.println("Welcome! Please select what you'd like to do:\n" +
-                "(D) Add Deposit\n" +
-                "(P) Make Payment (Debit)\n" +
-                "(L) Ledger\n" +
-                "(X) Exit");
+        System.out.print("~ Welcome to the Accounting Ledger! How can we help you...\n" +
+                "   (D) Add a Deposit\n" +
+                "   (P) Make a Payment (Debit)\n" +
+                "   (L) View Ledger\n" +
+                "   (X) Exit\n" +
+                "Your choice: ");
 
         // Stores user's choice
         String input = scanner.nextLine();
@@ -22,7 +23,34 @@ public class Console {
 
         switch(input){
             case "D":
-                // Call addDeposit(Transaction transaction);
+
+            // Echos user's selection
+                System.out.print("\nYou've selected \"Add a deposit\"");
+                printDelayedEllipsis();
+
+
+            // Prompts for and stores info from user for a deposit
+                System.out.print("\nPlease enter your deposit information below: \n" +
+                        "   Date: ");
+
+                String date = scanner.nextLine();
+
+                System.out.print("   Time: ");
+                String time = scanner.nextLine();
+
+                System.out.print("   Description: ");
+                String description = scanner.nextLine();
+
+                System.out.print("   Vendor: ");
+                String vendor = scanner.nextLine();
+
+                System.out.print("   Amount: ");
+                double amount = scanner.nextDouble();
+                scanner.nextLine();
+
+            // Adds deposit
+                Transaction.addDeposit(date, time, description, vendor, amount);
+
                 break;
 
             case "P":
@@ -105,4 +133,17 @@ public class Console {
     // Displays entries that are payments
     private static void displayOnlyPayments(){}
 
+    // Helper func for introducing next screen
+    private static void printDelayedEllipsis(){
+        // Prints delayed ellipsis...
+        try {
+            for (int i = 0; i < 3; i++) {
+                System.out.print(".");
+                Thread.sleep(400);
+            }
+        }
+        catch(InterruptedException e){
+            System.out.println("Error");
+        }
+    }
 }

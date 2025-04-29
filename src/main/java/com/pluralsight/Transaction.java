@@ -1,4 +1,5 @@
 package com.pluralsight;
+import java.io.*;
 
 public class Transaction {
 
@@ -66,12 +67,30 @@ public class Transaction {
 
 // MORE METHODS ------------------------------------------------------------------------------------------------------
 
-    // Adds/saves a deposit transaction to the csv file
-    public void addDeposit(Transaction transaction){
+    // Adds/saves a deposit transaction to the csv file -- AKA Money gained by the business (all positive amounts on ledger)
+    public static void addDeposit(String date, String time, String description, String vendor, double amount){
+        try {
 
+            // Opens the file
+            FileWriter fileWriter = new FileWriter("src/main/resources/transactions.csv", true); // "true" appends the file instead of overwriting
+
+            // Create a BufferedWriter
+            BufferedWriter bufWriter = new BufferedWriter(fileWriter);
+
+            // Writes to the file
+            bufWriter.write("\n" + date + "|" + time + "|" + description + "|" + vendor + "|" + String.format("%.2f", amount)); // String.format to keep 2 decimal places
+
+            // close the file when you are finished using it
+            bufWriter.close();
+        }
+
+        catch (IOException e) {
+            System.out.println("ERROR: An unexpected error occurred");
+            e.getStackTrace();
+        }
     }
 
-    // Adds a debit transaction to the csv file
+    // Adds a debit transaction to the csv file -- AKA Money spent by the business (all negative amounts on ledger)
     public void makePayment(Transaction transaction){
 
     }
