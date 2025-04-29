@@ -20,55 +20,46 @@ public class Console {
         // Stores user's choice
         String input = scanner.nextLine();
 
-
-        switch(input){
-            case "D":
+        // Executes the task based on user's choice
+        if (input.equals("D")) {
 
             // Echos user's selection
-                System.out.print("\nYou've selected \"Add a deposit\"");
-                printDelayedEllipsis();
-
+            System.out.print("\nYou've selected \"Add a deposit\"");
+            printDelayedEllipsis();
 
             // Prompts for and stores info from user for a deposit
-                System.out.print("\nPlease enter your deposit information below: \n" +
-                        "   Date: ");
-
-                String date = scanner.nextLine();
-
-                System.out.print("   Time: ");
-                String time = scanner.nextLine();
-
-                System.out.print("   Description: ");
-                String description = scanner.nextLine();
-
-                System.out.print("   Vendor: ");
-                String vendor = scanner.nextLine();
-
-                System.out.print("   Amount: ");
-                double amount = scanner.nextDouble();
-                scanner.nextLine();
+            System.out.print("\nPlease enter the deposit information below: \n");
 
             // Adds deposit
-                Transaction.addDeposit(date, time, description, vendor, amount);
-
-                break;
-
-            case "P":
-
-                break;
-
-            case "L":
-
-                break;
-
-            case "X":
-
-                break;
-
-            default:
+            Transaction.addDeposit(getUserTransaction());
         }
 
-    }
+        else if (input.equals("P")) {
+
+            // Echos user's selection
+            System.out.print("\nYou've selected \"Make a Payment\"");
+            printDelayedEllipsis();
+
+            // Prompts for and stores info from user for a deposit
+            System.out.print("\nPlease enter the debit information below: \n");
+
+            // Adds deposit
+            Transaction.makePayment(getUserTransaction());
+        }
+
+        else if (input.equals("L")) {
+
+        }
+
+        else if (input.equals("X")) {
+
+        }
+
+        else {
+
+        }
+
+        }
 
     // Displays ledger options; then displays the selected option (all entries show the newest entry first)
     public static void displayLedger(){
@@ -146,4 +137,30 @@ public class Console {
             System.out.println("Error");
         }
     }
+
+    // Prompts user for the details of a Transaction; returns the Transaction
+    private static Transaction getUserTransaction() {
+
+    // Prompts user for the details of their transaction
+        System.out.print("   Date: ");
+            String date = scanner.nextLine();
+
+            System.out.print("   Time: ");
+            String time = scanner.nextLine();
+
+            System.out.print("   Description: ");
+            String description = scanner.nextLine();
+
+            System.out.print("   Vendor: ");
+            String vendor = scanner.nextLine();
+
+            System.out.print("   Amount: ");
+            double amount = scanner.nextDouble();
+            scanner.nextLine();
+
+    // Constructs a Transaction using prompt details; returns the Transaction
+        return new Transaction(date, time, description, vendor, amount);
+
+    }
+
 }
