@@ -67,8 +67,9 @@ public class Transaction {
 
 // MORE METHODS ------------------------------------------------------------------------------------------------------
 
-    // Adds/saves a deposit transaction to the csv file -- AKA Money gained by the business (all positive amounts on ledger)
-    public static void addDeposit(Transaction transaction){
+    // Adds/saves a transaction to the csv file
+    // Deposit = money gained (all positive amounts on leder) & Payment = money spent (all negative amounts on ledger)
+    public static void addTransaction(Transaction transaction){
         try {
 
             // Opens the file
@@ -90,9 +91,5 @@ public class Transaction {
         }
     }
 
-    // Adds a debit transaction to the csv file -- AKA Money spent by the business (all negative amounts on ledger)
-    public static void makePayment(Transaction transaction){
-
-    }
 
 }

@@ -30,8 +30,8 @@ public class Console {
             // Prompts for and stores info from user for a deposit
             System.out.print("\nPlease enter the deposit information below: \n");
 
-            // Adds deposit
-            Transaction.addDeposit(getUserTransaction());
+            // Adds transaction (a deposit) to ledger
+            Transaction.addTransaction(getUserTransaction());
         }
 
         else if (input.equals("P")) {
@@ -43,8 +43,13 @@ public class Console {
             // Prompts for and stores info from user for a deposit
             System.out.print("\nPlease enter the debit information below: \n");
 
-            // Adds deposit
-            Transaction.makePayment(getUserTransaction());
+            // Converts the transaction's amount to negative
+            Transaction transaction = getUserTransaction();     // Prompts user for a transaction
+            double negativeAmount = -(transaction.getAmount()); // Calculates negative equivalent of "amount" in transaction
+            transaction.setAmount(negativeAmount);              // Sets "amount" to its negative equivalent
+
+            // Adds transaction (a payment) to ledger
+            Transaction.addTransaction(transaction);
         }
 
         else if (input.equals("L")) {
