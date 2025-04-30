@@ -74,26 +74,16 @@ public class Console {
             System.out.println("\n~ Thank you for stopping by, and have a wonderful rest of your day!");
         }
 
-        // Upon incorrect inputs, error message and re-displays options
+        // Upon any incorrect input, error message and re-displays options
         else {
 
-            // Checks if user wants to either 1) see options again or 2) exit
-            System.out.print("\nSorry! I'm not sure I understand what you mean by that. Would you like to try again? (Y/N): ");
-            String response = scanner.nextLine();
-
-            if (response.equalsIgnoreCase("Y")){
-
-                // Echos user choice
-                System.out.print("\nGreat! Let’s give it another go");
-                printDelayedEllipsis();
-
+            if (offerRetryOption()){
                 // Goes back to home screen
                 displayHomeScreen();
             }
 
             else {
-                // Echos user choice
-                System.out.println("\n~ Thank you for stopping by, and have a wonderful rest of your day!");
+                return;
             }
         }
 
@@ -101,7 +91,6 @@ public class Console {
 
     // Displays ledger options; then displays the selected option (all entries show the newest entry first)
     public static void displayLedger(){
-
 
         // Displays ledger options; prompts user for choice
         System.out.println("""
@@ -216,38 +205,32 @@ public class Console {
                 displayHomeScreen();  // Displays home screen
             }
 
-            // Upon incorrect inputs, error message and re-displays options
+            // Upon any incorrect input, error message and re-displays options
             else {
 
-                // Checks if user wants to either 1) see options again or 2) exit
-                System.out.print("\nSorry! I'm not sure I understand what you mean by that. Would you like to try again? (Y/N): ");
-                String response = scanner.nextLine();
-
-                if (response.equalsIgnoreCase("Y")){
-
-                    // Echos user choice
-                    System.out.print("\nGreat! Let’s give it another go");
-                    printDelayedEllipsis();
-
+                // If user wants to try again; redirects back to ledger screen
+                if (offerRetryOption()){
                     // Goes back to ledger
                     displayLedger();
                 }
 
+                // Otherwise, exits
                 else {
-                    // Echos user choice
-                    System.out.println("\n~ Thank you for stopping by, and have a wonderful rest of your day!");
+                    return;
                 }
+
             }
 
             // Closes bufReader; release resources
             bufReader.close();
         }
 
+        // Prints error message upon encountering an error
         catch (IOException e){
 
-            // Prints error message upon encountering an error
             System.out.println("Oops! There's been an error fetching the ledger. Please give me a moment");
             printDelayedEllipsis();
+            displayLedger();    // Tries again to display ledger
         }
     }
 
@@ -257,20 +240,65 @@ public class Console {
         // Displays report options; prompts user for choice
         System.out.println("""
                 Please select what you'd like to do next:
-                   (1) All
-                   (2) Deposits
-                   (3) Payments
-                   (4) Reports
-                   (5) Home
+                   (1) Month To Date
+                   (2) Previous Month
+                   (3) Year To Date
+                   (4) Previous Year
+                   (5) Search by Vendor
                    (6) Custom Search
                    (0) Back""");
+
+        // Initializes variable for holding input
+        int input = scanner.nextInt();
+        scanner.nextLine();
+
+        // Upon input 1,
+        if (input == 1){
+
+        }
+        // Upon input 2,
+        else if (input == 2){
+
+        }
+
+        // Upon input 3,
+        else if (input == 3){
+
+        }
+
+        // Upon input 4,
+        else if (input == 4){
+
+        }
+
+        // Upon input 5,
+        else if (input == 5){
+
+        }
+
+        // Upon input 6,
+        else if (input == 6){
+
+        }
+
+        // Upon input 0,
+        else if (input == 0){
+
+        }
+
+        // Upon any incorrect input, error message and re-displays options
+        else {
+
+            if (offerRetryOption()){
+                // Goes back to home screen
+                displayHomeScreen();
+            }
+
+            else {
+                return;
+            }
+        }
     }
-
-    // Displays entries that are deposits
-    private static void displayOnlyDeposits(){}
-
-    // Displays entries that are payments
-    private static void displayOnlyPayments(){}
 
 // HELPER METHODS
     // Adds delayed ellipsis for screen transitions
@@ -305,6 +333,36 @@ public class Console {
 
     // Constructs a Transaction using prompt details; returns the Transaction
         return new Transaction(description, vendor, amount);
+
+    }
+
+    // Returns true if user wants to try again to input a valid selection; return false otherwise (both include accompanying console prints)
+    private static boolean offerRetryOption() {
+
+        // Checks if user wants to either 1) see options again or 2) exit
+        System.out.print("\nSorry! I'm not sure I understand what you mean by that. Would you like to try again? (Y/N): ");
+        String response = scanner.nextLine();
+
+        if (response.equalsIgnoreCase("Y")){
+
+            // Echos user choice
+            System.out.print("\nGreat! Let’s give it another go");
+            printDelayedEllipsis();
+
+            return true;
+        }
+
+        else if (response.equalsIgnoreCase("N")){
+            // Echos user choice
+            System.out.println("\n~ Thank you for stopping by, and have a wonderful rest of your day!");
+
+            return false;
+        }
+
+        else {
+            // If input is not Y or N, repeats prompt
+            return offerRetryOption();
+        }
 
     }
 
