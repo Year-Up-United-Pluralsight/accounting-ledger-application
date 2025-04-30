@@ -165,7 +165,7 @@ public class Console {
         try {
             for (int i = 0; i < 3; i++) {
                 System.out.print(".");     // Prints three periods (an ellipsis)
-                Thread.sleep(400);   // Delays printing of each period
+                Thread.sleep(350);   // Delays printing of each period
             }
 
             System.out.println("\n");          // Skips two lines
@@ -179,13 +179,7 @@ public class Console {
     private static Transaction getUserTransaction() {
 
     // Prompts user for the details of their transaction
-        System.out.print("   Date: ");
-            String date = scanner.nextLine();
-
-            System.out.print("   Time: ");
-            String time = scanner.nextLine();
-
-            System.out.print("   Description: ");
+        System.out.print("   Description: ");
             String description = scanner.nextLine();
 
             System.out.print("   Vendor: ");
@@ -196,7 +190,7 @@ public class Console {
             scanner.nextLine();
 
     // Constructs a Transaction using prompt details; returns the Transaction
-        return new Transaction(date, time, description, vendor, amount);
+        return new Transaction(description, vendor, amount);
 
     }
 

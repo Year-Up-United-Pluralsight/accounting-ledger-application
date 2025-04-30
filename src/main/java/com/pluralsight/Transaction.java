@@ -1,19 +1,21 @@
 package com.pluralsight;
 import java.io.*;
+import java.time.*;
+import java.time.temporal.ChronoUnit;
 
 public class Transaction {
 
     // PRIVATE VARIABLES
-    private String date;
-    private String time;
+    private LocalDate date;
+    private LocalTime time;
     private String description;
     private String vendor;
     private double amount;
 
     // CONSTRUCTOR
-    public Transaction(String date, String time, String description, String vendor, double amount) {
-        this.date = date;
-        this.time = time;
+    public Transaction(String description, String vendor, double amount) {
+        this.date = LocalDate.now();  // Sets date to current date
+        this.time = (LocalTime.now()).truncatedTo(ChronoUnit.SECONDS); // Sets time to current time; removes extra nanoseconds
         this.description = description;
         this.vendor = vendor;
         this.amount = amount;
@@ -48,27 +50,24 @@ public class Transaction {
     }
 
     // Time
-    public String getTime() {
+    public LocalTime getTime() {
         return time;
     }
 
-    public void setTime(String time) {
-        this.time = time;
-    }
-
     // Date
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    // Sets date and time to current; since this will always be the case for every transaction
+    public void setCurrentDateAndTime(String date, String time){
+
     }
 
 // MORE METHODS ------------------------------------------------------------------------------------------------------
 
     // Adds/saves a transaction to the csv file
-    // Deposit = money gained (all positive amounts on leder) & Payment = money spent (all negative amounts on ledger)
+    // Deposit = money gained (all positive amounts on ledger) & Payment = money spent (all negative amounts on ledger)
     public static void addTransaction(Transaction transaction){
         try {
 

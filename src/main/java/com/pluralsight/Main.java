@@ -10,7 +10,6 @@ public class Main {
 
             // Creates FileReader object connected to csv file
             FileReader filereader = new FileReader("src/main/resources/transactions.csv");
-
             // Creates BufferedReader object connected
             BufferedReader bufReader = new BufferedReader(filereader);
 
