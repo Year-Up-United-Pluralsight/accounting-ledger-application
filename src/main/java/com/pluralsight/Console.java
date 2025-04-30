@@ -3,7 +3,6 @@ package com.pluralsight;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class Console {
@@ -14,12 +13,13 @@ public class Console {
     public static void displayHomeScreen() {
 
         // Displays home screen options; prompts user for choice
-        System.out.print("~ Welcome to the Accounting Ledger! How can I help you...\n" +
-                "   (D) Add a Deposit\n" +
-                "   (P) Make a Payment (Debit)\n" +
-                "   (L) View Ledger\n" +
-                "   (X) Exit\n" +
-                "Your choice: ");
+        System.out.print("""
+                ~ Welcome to the Accounting Ledger! How can I help you...
+                   (D) Add a Deposit
+                   (P) Make a Payment (Debit)
+                   (L) View Ledger
+                   (X) Exit
+                Your choice:\s""");
 
         // Stores user's choice
         String input = scanner.nextLine();
@@ -104,12 +104,13 @@ public class Console {
 
 
         // Displays ledger options; prompts user for choice
-        System.out.println("Please select what you'd like to do next:\n" +
-                "   (A) All\n" +
-                "   (D) Deposits\n" +
-                "   (P) Payments\n" +
-                "   (R) Reports\n" +
-                "   (H) Home");
+        System.out.println("""
+                Please select what you'd like to do next:
+                   (A) All
+                   (D) Deposits
+                   (P) Payments
+                   (R) Reports
+                   (H) Home""");
 
 
         // Stores user's choice
@@ -141,12 +142,56 @@ public class Console {
                 }
             }
 
+            // Upon D selection, displays all deposits
             else if (userChoice.equalsIgnoreCase("D")) {
 
+                // Echos user's selection
+                System.out.print("\nYou've selected \"View Deposits\"");
+                printDelayedEllipsis();
+
+                // Initializes string array to store elements of parsed line
+                String[] parsedLine;
+
+                // Reads until there are no more lines of data
+                while((input = bufReader.readLine()) != null){
+
+                    // Parses line by pipe symbol
+                    parsedLine = input.split("\\|");
+
+                    // Converts amount from string to double
+                    double parsedAmount = Double.parseDouble(parsedLine[4]);
+
+                    // If transaction is a deposit (i.e. its amount is positive), displays it
+                    if(parsedAmount > 0){
+                        System.out.println(input);
+                    }
+                }
             }
 
+            // Upon P selection, displays all payments
             else if (userChoice.equalsIgnoreCase("P")) {
 
+                // Echos user's selection
+                System.out.print("\nYou've selected \"View Payments\"");
+                printDelayedEllipsis();
+
+                // Initializes string array to store elements of parsed line
+                String[] parsedLine;
+
+                // Reads until there are no more lines of data
+                while((input = bufReader.readLine()) != null){
+
+                    // Parses line by pipe symbol
+                    parsedLine = input.split("\\|");
+
+                    // Converts amount from string to double
+                    double parsedAmount = Double.parseDouble(parsedLine[4]);
+
+                    // If transaction is a deposit (i.e. its amount is positive), displays it
+                    if(parsedAmount < 0){
+                        System.out.println(input);
+                    }
+                }
             }
 
             else if (userChoice.equalsIgnoreCase("R")) {
@@ -167,8 +212,9 @@ public class Console {
 
         catch (IOException e){
 
-            // Displays stack trace if error occurs
-            e.printStackTrace();
+            // Prints error message upon encountering an error
+            System.out.println("Oops! There's been an error fetching the ledger. Please give me a moment");
+            printDelayedEllipsis();
         }
     }
 
@@ -176,17 +222,15 @@ public class Console {
     public static void displayReports(){
 
         // Displays report options; prompts user for choice
-        System.out.println("Please select what you'd like to do next:" +
-                "(1) All" +
-                "(2) Deposits\n" +
-                "(3) Payments\n" +
-                "(4) Reports\n" +
-                "(5) Home\n" +
-                "(6) Custom Search\n" +
-                "(0) Back");
-
-
-
+        System.out.println("""
+                Please select what you'd like to do next:
+                   (1) All
+                   (2) Deposits
+                   (3) Payments
+                   (4) Reports
+                   (5) Home
+                   (6) Custom Search
+                   (0) Back""");
     }
 
     // Displays entries that are deposits
