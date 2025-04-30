@@ -29,7 +29,7 @@ public class Console {
         if (input.equalsIgnoreCase("D")) {
 
             // Echos user's selection
-            System.out.print("\nYou've selected \"Add a deposit\"");
+            System.out.print("\nYou have selected \"Add a deposit\"");
             printDelayedEllipsis();
 
             // Prompts for and stores info from user for a deposit
@@ -43,7 +43,7 @@ public class Console {
         else if (input.equalsIgnoreCase("P")) {
 
             // Echos user's selection
-            System.out.print("\nYou've selected \"Make a Payment\"");
+            System.out.print("\nYou have selected \"Make a Payment\"");
             printDelayedEllipsis();
 
             // Prompts for and stores info from user for a deposit
@@ -62,7 +62,7 @@ public class Console {
         else if (input.equalsIgnoreCase("L")) {
 
             // Echos user's selection
-            System.out.print("\nYou've selected \"View Ledger\"");
+            System.out.print("\nYou have selected \"View Ledger\"");
             printDelayedEllipsis();
 
             displayLedger();
@@ -81,7 +81,7 @@ public class Console {
             System.out.print("\nSorry! I'm not sure I understand what you mean by that. Would you like to try again? (Y/N): ");
             String response = scanner.nextLine();
 
-            if (response.equals("Y")){
+            if (response.equalsIgnoreCase("Y")){
 
                 // Echos user choice
                 System.out.print("\nGreat! Let’s give it another go");
@@ -133,7 +133,7 @@ public class Console {
             if(userChoice.equalsIgnoreCase("A")) {
 
                 // Echos user's selection
-                System.out.print("\nYou've selected \"View All Entries\"");
+                System.out.print("\nYou have selected \"View All Entries\"");
                 printDelayedEllipsis();
 
                 // Reads until there are no more lines of data
@@ -146,7 +146,7 @@ public class Console {
             else if (userChoice.equalsIgnoreCase("D")) {
 
                 // Echos user's selection
-                System.out.print("\nYou've selected \"View Deposits\"");
+                System.out.print("\nYou have selected \"View Deposits\"");
                 printDelayedEllipsis();
 
                 // Initializes string array to store elements of parsed line
@@ -172,7 +172,7 @@ public class Console {
             else if (userChoice.equalsIgnoreCase("P")) {
 
                 // Echos user's selection
-                System.out.print("\nYou've selected \"View Payments\"");
+                System.out.print("\nYou have selected \"View Payments\"");
                 printDelayedEllipsis();
 
                 // Initializes string array to store elements of parsed line
@@ -194,16 +194,49 @@ public class Console {
                 }
             }
 
+            // Upon R selection, displays reports or runs a custom search
             else if (userChoice.equalsIgnoreCase("R")) {
 
+                // Echos user's selection
+                System.out.print("\nYou have selected \"Reports\"");
+                printDelayedEllipsis();
+
+                System.out.println(); // Skips line
+                displayReports();  // Displays reports
             }
 
+            // Upon H selection, displays home screen again
             else if (userChoice.equalsIgnoreCase("H")) {
 
+                // Echos user's selection
+                System.out.print("\nYou have selected \"Home\"");
+                printDelayedEllipsis();
+
+                System.out.println(); // Skips line
+                displayHomeScreen();  // Displays home screen
             }
 
+            // Upon incorrect inputs, error message and re-displays options
             else {
 
+                // Checks if user wants to either 1) see options again or 2) exit
+                System.out.print("\nSorry! I'm not sure I understand what you mean by that. Would you like to try again? (Y/N): ");
+                String response = scanner.nextLine();
+
+                if (response.equalsIgnoreCase("Y")){
+
+                    // Echos user choice
+                    System.out.print("\nGreat! Let’s give it another go");
+                    printDelayedEllipsis();
+
+                    // Goes back to ledger
+                    displayLedger();
+                }
+
+                else {
+                    // Echos user choice
+                    System.out.println("\n~ Thank you for stopping by, and have a wonderful rest of your day!");
+                }
             }
 
             // Closes bufReader; release resources
