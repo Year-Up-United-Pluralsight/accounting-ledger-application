@@ -1,5 +1,8 @@
 package com.pluralsight;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.SQLOutput;
 import java.util.Scanner;
 
@@ -21,8 +24,9 @@ public class Console {
         // Stores user's choice
         String input = scanner.nextLine();
 
-        // Upon 'D' input, performs a deposit
-        if (input.equals("D")) {
+        // EXECUTES SELECTED TASK
+        // Upon D selection, performs a deposit
+        if (input.equalsIgnoreCase("D")) {
 
             // Echos user's selection
             System.out.print("\nYou've selected \"Add a deposit\"");
@@ -35,8 +39,8 @@ public class Console {
             Transaction.addTransaction(getUserTransaction());
         }
 
-        // Upon 'P' input, performs a payment
-        else if (input.equals("P")) {
+        // Upon P selection, performs a payment
+        else if (input.equalsIgnoreCase("P")) {
 
             // Echos user's selection
             System.out.print("\nYou've selected \"Make a Payment\"");
@@ -54,8 +58,8 @@ public class Console {
             Transaction.addTransaction(transaction);
         }
 
-        // Upon 'L' input, displays ledger screen
-        else if (input.equals("L")) {
+        // Upon L selection, displays ledger screen
+        else if (input.equalsIgnoreCase("L")) {
 
             // Echos user's selection
             System.out.print("\nYou've selected \"View Ledger\"");
@@ -64,8 +68,8 @@ public class Console {
             displayLedger();
         }
 
-        // Upon 'X' input, exits application
-        else if (input.equals("X")) {
+        // Upon X selection, exits application
+        else if (input.equalsIgnoreCase("X")) {
             // Echos user choice
             System.out.println("\n~ Thank you for stopping by, and have a wonderful rest of your day!");
         }
@@ -98,41 +102,74 @@ public class Console {
     // Displays ledger options; then displays the selected option (all entries show the newest entry first)
     public static void displayLedger(){
 
+
         // Displays ledger options; prompts user for choice
         System.out.println("Please select what you'd like to do next:\n" +
-                "(A) All\n" +
-                "(D) Deposits\n" +
-                "(P) Payments\n" +
-                "(R) Reports\n" +
-                "(H) Home");
+                "   (A) All\n" +
+                "   (D) Deposits\n" +
+                "   (P) Payments\n" +
+                "   (R) Reports\n" +
+                "   (H) Home");
+
 
         // Stores user's choice
-        String input = scanner.nextLine();
+        String userChoice = scanner.nextLine();
 
-        switch(input){
-            case "A":
+        // READS IN CSV FILE
+        try {
 
-                break;
+            // Creates FileReader object connected to csv file
+            FileReader filereader = new FileReader("src/main/resources/transactions.csv");
+            // Creates BufferedReader object connected
+            BufferedReader bufReader = new BufferedReader(filereader);
 
-            case "D":
+            // Initializes variable for holding input
+            String input;
 
-                break;
 
-            case "P":
+            // EXECUTES SELECTED TASK
+            // Upon A selection,  displays all entries
+            if(userChoice.equalsIgnoreCase("A")) {
 
-                break;
+                // Echos user's selection
+                System.out.print("\nYou've selected \"View All Entries\"");
+                printDelayedEllipsis();
 
-            case "R":
+                // Reads until there are no more lines of data
+                while((input = bufReader.readLine()) != null){
+                    System.out.println(input); // Prints each line
+                }
+            }
 
-                break;
+            else if (userChoice.equalsIgnoreCase("D")) {
 
-            case "H":
+            }
 
-                break;
+            else if (userChoice.equalsIgnoreCase("P")) {
 
-            default:
+            }
+
+            else if (userChoice.equalsIgnoreCase("R")) {
+
+            }
+
+            else if (userChoice.equalsIgnoreCase("H")) {
+
+            }
+
+            else {
+
+            }
+
+            // Closes bufReader; release resources
+            bufReader.close();
         }
 
+        catch (IOException e){
+
+            // Displays stack trace if error occurs
+            e.printStackTrace();
+        }
     }
 
     // Displays reports; then displays the selected option
@@ -165,7 +202,7 @@ public class Console {
         try {
             for (int i = 0; i < 3; i++) {
                 System.out.print(".");     // Prints three periods (an ellipsis)
-                Thread.sleep(350);   // Delays printing of each period
+                Thread.sleep(315);   // Delays printing of each period
             }
 
             System.out.println("\n");          // Skips two lines
