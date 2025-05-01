@@ -3,6 +3,7 @@ package com.pluralsight;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Console {
@@ -19,14 +20,15 @@ public class Console {
                    (P) Make a Payment (Debit)
                    (L) View Ledger
                    (X) Exit
+                
                 Your choice:\s""");
 
         // Stores user's choice
-        String input = scanner.nextLine();
+        String userChoice = scanner.nextLine();
 
         // EXECUTES SELECTED TASK
         // Upon D selection, performs a deposit
-        if (input.equalsIgnoreCase("D")) {
+        if (userChoice.equalsIgnoreCase("D")) {
 
             // Echos user's selection
             System.out.print("\nYou have selected \"Add a deposit\"");
@@ -40,7 +42,7 @@ public class Console {
         }
 
         // Upon P selection, performs a payment
-        else if (input.equalsIgnoreCase("P")) {
+        else if (userChoice.equalsIgnoreCase("P")) {
 
             // Echos user's selection
             System.out.print("\nYou have selected \"Make a Payment\"");
@@ -59,7 +61,7 @@ public class Console {
         }
 
         // Upon L selection, displays ledger screen
-        else if (input.equalsIgnoreCase("L")) {
+        else if (userChoice.equalsIgnoreCase("L")) {
 
             // Echos user's selection
             System.out.print("\nYou have selected \"View Ledger\"");
@@ -69,7 +71,7 @@ public class Console {
         }
 
         // Upon X selection, exits application
-        else if (input.equalsIgnoreCase("X")) {
+        else if (userChoice.equalsIgnoreCase("X")) {
             // Echos user choice
             System.out.println("\n~ Thank you for stopping by, and have a wonderful rest of your day!");
         }
@@ -115,7 +117,6 @@ public class Console {
 
             // Initializes variable for holding input
             String input;
-
 
             // EXECUTES SELECTED TASK
             // Upon A selection,  displays all entries
@@ -249,54 +250,213 @@ public class Console {
                    (0) Back""");
 
         // Initializes variable for holding input
-        int input = scanner.nextInt();
+        int userChoice = scanner.nextInt();
         scanner.nextLine();
 
-        // Upon input 1,
-        if (input == 1){
+        try {
 
-        }
-        // Upon input 2,
-        else if (input == 2){
+            // Creates FileReader object connected to csv file
+            FileReader filereader = new FileReader("src/main/resources/transactions.csv");
+            // Creates BufferedReader object connected
+            BufferedReader bufReader = new BufferedReader(filereader);
 
-        }
+            // Initializes variable for holding input
+            String input;
 
-        // Upon input 3,
-        else if (input == 3){
+            // Upon input 1 (Month to Date), shows all transactions from the start of the current month up to today
+            if (userChoice == 1) {
 
-        }
+                // Echos user's selection
+                System.out.print("\nYou have selected \"Month to Date\"");
+                printDelayedEllipsis();
 
-        // Upon input 4,
-        else if (input == 4){
+                // Initializes string array to store elements of parsed line
+                String[] parsedLine;
 
-        }
+                // Reads until there are no more lines of data
+                while((input = bufReader.readLine()) != null){
 
-        // Upon input 5,
-        else if (input == 5){
+                    // Parses line by pipe symbol
+                    parsedLine = input.split("\\|");
 
-        }
+                    // Selects date from parsed line; parses date by dash symbol
+                    String[] parsedDate = parsedLine[0].split("-");
 
-        // Upon input 6,
-        else if (input == 6){
+                    // Selects year from parsed date; converts it to an int (for comparing)
+                    int year = Integer.parseInt(parsedDate[0]);
 
-        }
+                    // Selects month from parsed date; converts it to an int (for comparing)
+                    int month = Integer.parseInt(parsedDate[1]);
 
-        // Upon input 0,
-        else if (input == 0){
-
-        }
-
-        // Upon any incorrect input, error message and re-displays options
-        else {
-
-            if (offerRetryOption()){
-                // Goes back to home screen
-                displayHomeScreen();
+                    // If transaction's year & month are the current year & month, print the transaction
+                    if (year == (LocalDate.now()).getYear() && month == (LocalDate.now()).getMonthValue()){   // LocalDate.now() required as an instance for getMonth to be called
+                        System.out.println(input);
+                    }
+                }
             }
 
+            // Upon input 2 (Previous Month), shows all transactions that occurred during the entire month before the current one
+            else if (userChoice == 2) {
+
+                // Echos user's selection
+                System.out.print("\nYou have selected \"Previous Month\"");
+                printDelayedEllipsis();
+
+                // Initializes string array to store elements of parsed line
+                String[] parsedLine;
+
+                // Reads until there are no more lines of data
+                while((input = bufReader.readLine()) != null){
+
+                    // Parses line by pipe symbol
+                    parsedLine = input.split("\\|");
+
+                    // Selects date from parsed line; parses date by dash symbol
+                    String[] parsedDate = parsedLine[0].split("-");
+
+                    // Selects year from parsed date; converts it to an int (for comparing)
+                    int year = Integer.parseInt(parsedDate[0]);
+
+                    // Selects month from parsed date; converts it to an int
+                    int month = Integer.parseInt(parsedDate[1]);
+
+                    // If transaction's year is current year & month is previous month, print the transaction
+                    if (year == (LocalDate.now()).getYear() && month == ((LocalDate.now()).getMonthValue()) - 1){   // LocalDate.now() required as an instance for getMonth to be called
+                        System.out.println(input);
+                    }
+                }
+            }
+
+            // Upon input 3 (Year to Date), shows all transactions from January 1 of the current year up to today
+            else if (userChoice == 3) {
+
+                // Echos user's selection
+                System.out.print("\nYou have selected \"Year to Date\"");
+                printDelayedEllipsis();
+
+                // Initializes string array to store elements of parsed line
+                String[] parsedLine;
+
+                // Reads until there are no more lines of data
+                while((input = bufReader.readLine()) != null){
+
+                    // Parses line by pipe symbol
+                    parsedLine = input.split("\\|");
+
+                    // Selects date from parsed line; parses date by dash symbol
+                    String[] parsedDate = parsedLine[0].split("-");
+
+                    // Selects year from parsed date; converts it to an int (for comparing)
+                    int year = Integer.parseInt(parsedDate[0]);
+
+                    // Selects month from parsed date; converts it to an int (for comparing)
+                    int month = Integer.parseInt(parsedDate[1]);
+
+                    // If transaction's year is current year & month is January (1), print the transaction
+                    if (year == (LocalDate.now()).getYear() && month == 1){   // LocalDate.now() required as an instance for getMonth to be called
+                        System.out.println(input);
+                    }
+                }
+            }
+
+            // Upon input 4 (Previous Year), shows all transactions from the full previous calendar year
+            else if (userChoice == 4) {
+
+                // Echos user's selection
+                System.out.print("\nYou have selected \"Previous Year\"");
+                printDelayedEllipsis();
+
+                // Initializes string array to store elements of parsed line
+                String[] parsedLine;
+
+                // Reads until there are no more lines of data
+                while((input = bufReader.readLine()) != null){
+
+                    // Parses line by pipe symbol
+                    parsedLine = input.split("\\|");
+
+                    // Selects date from parsed line; parses date by dash symbol
+                    String[] parsedDate = parsedLine[0].split("-");
+
+                    // Selects year from parsed date; converts it to an int (for comparing)
+                    int year = Integer.parseInt(parsedDate[0]);
+
+                    // If transaction's year is previous year
+                    if (year == ((LocalDate.now()).getYear()) - 1){   // LocalDate.now() required as an instance for getMonth to be called
+                        System.out.println(input);
+                    }
+                }
+            }
+
+            // Upon input 5 (Search by Vendor), prompt the user for the vendor name and displays all entries for that vendor
+            else if (userChoice == 5) {
+
+                // Echos user's selection
+                System.out.print("\nYou have selected \"Search by Vendor\"");
+                printDelayedEllipsis();
+
+                // Prompts user for vendor name
+                System.out.print("What is the name of the vendor you would like to search by?: ");
+                String chosenVendor = scanner.nextLine();
+                System.out.println(); // Skip line
+
+                // Echos user's vendor selection
+                System.out.print("Got it! Displaying results for " + chosenVendor);
+                printDelayedEllipsis();
+
+                // Initializes string array to store elements of parsed line
+                String[] parsedLine;
+
+                // Reads until there are no more lines of data
+                while((input = bufReader.readLine()) != null){
+
+                    // Parses line by pipe symbol
+                    parsedLine = input.split("\\|");
+
+                    // Selects date from parsed line; parses date by dash symbol
+                    String vendor = parsedLine[3];
+
+                    // If transaction's year is previous year
+                    if (vendor.equalsIgnoreCase(chosenVendor)){   // LocalDate.now() required as an instance for getMonth to be called
+                        System.out.println(input);
+                    }
+                }
+            }
+
+            // Upon input 6,
+            else if (userChoice == 6) {
+
+            }
+
+            // Upon input 0, re-displays reports page
+            else if (userChoice == 0) {
+
+                // Echos user's selection
+                System.out.print("\nReturning to the ledger page!");
+                printDelayedEllipsis();
+
+                // Displays ledger
+                displayLedger();
+            }
+
+            // Upon any incorrect input, error message and re-displays options
             else {
-                return;
+
+                if (offerRetryOption()) {
+                    // Goes back to home screen
+                    displayHomeScreen();
+                } else {
+                    return;
+                }
             }
+        }
+
+        // Prints error message upon encountering an error
+        catch (IOException e){
+
+            System.out.println("Oops! There's been an error fetching the reports. Please give me a moment");
+            printDelayedEllipsis();
+            displayReports();    // Tries again to display reports
         }
     }
 
