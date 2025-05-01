@@ -426,6 +426,38 @@ public class Console {
             // Upon input 6,
             else if (userChoice == 6) {
 
+                // Echos user's selection
+                System.out.print("\nYou have selected \"Custom Search\"");
+                printDelayedEllipsis();
+
+                // Prompts for and stores info from user for a deposit
+                System.out.println("Please fill any details you'd like to search by below: (press Enter to skip)");
+
+                System.out.print("Start Date: ");
+                String startDate = scanner.nextLine();
+
+                System.out.print("End Date: ");
+                String endDate = scanner.nextLine();
+
+                System.out.print("Description: ");
+                String description = scanner.nextLine();
+
+                System.out.print("Vendor: ");
+                String vendor = scanner.nextLine();
+
+                System.out.print("Amount: ");
+                String amount = scanner.nextLine();
+
+                // If amount is not an empty string (""), convert it into a double
+
+                // Confirmation message
+                System.out.print("Got it! Filtering transactions");
+                printDelayedEllipsis();
+
+
+
+
+
             }
 
             // Upon input 0, re-displays reports page
