@@ -3,10 +3,10 @@ package com.pluralsight;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Console {
 
@@ -506,12 +506,11 @@ public class Console {
             System.out.print("Amount: ");
             String amount = scanner.nextLine();
 
-            // If amount is not an empty string (""), convert it into a double
-
             // Confirmation message
             System.out.print("Got it! Filtering transactions");
             printDelayedEllipsis();
 
+            System.out.println(customSearch(startDate, endDate, description,vendor, amount));
 
         }
 
@@ -645,6 +644,178 @@ public class Console {
 
         // Returns array of all transactions (as strings) in the csv file
         return arrayOfAllTransactions;
+
+    }
+
+    private static ArrayList<String> customSearch(String startDate, String endDate, String description, String vendor, String amount) {
+
+    // START DATE SECTION ----------------------------------------------------------------------------------------------
+
+        // Initializes list to be used for filtering transactions by given criteria
+        ArrayList<String> filteredList = new ArrayList<>();
+
+        // Returns full transaction list if user inputs nothing
+        if (startDate.isBlank()){
+            filteredList = getArrayOfAllTransactions();
+        }
+
+        // Else...
+        else {
+
+            // Initializes index recorder to locate start date (in csv file) index recorder
+            int startDateIndex = 0;
+
+            // Loops through every transaction in the csv file; records start date index
+            for (int i = 0; i < getArrayOfAllTransactions().size(); i++) {
+
+                // If the current entry's start date is equal to inputted start date; record its index
+                if (getArrayOfAllTransactions().get(i).equals(startDate)) {
+                    startDateIndex = i;
+                }
+            }
+
+            // Initializes arraylist to hold entries on and past start date
+            ArrayList<String> entriesFromStartDate = new ArrayList<>();
+
+            // For every entry on start date and forward
+            for (int i = startDateIndex; i < getArrayOfAllTransactions().size(); i++) {
+
+                // Adds every entry on and past start date to arraylist
+                filteredList.add(getArrayOfAllTransactions().get(i));
+            }
+
+            // Returns arraylist of all entries on and past start date
+            filteredList = entriesFromStartDate;
+        }
+
+    // END DATE SECTION ----------------------------------------------------------------------------------------------
+
+        // Returns full transaction list if user inputs nothing
+        if (!(endDate.isBlank())){
+
+            // Initializes index recorder to locate start date (in csv file) index recorder
+            int endDateIndex = filteredList.size();
+
+            // Loops through every transaction in the filtered list
+            for (int i = 0; i < filteredList.size(); i++) {
+
+                // If the current entry's start date is equal to inputted end date; record its index
+                if (filteredList.get(i).equals(startDate)) {
+                    endDateIndex = i;
+                }
+            }
+
+            // Initializes arraylist to hold entries on and past start date
+            ArrayList<String> entriesWithinStartEndDates = new ArrayList<>();
+
+            // For every entry on end date and before
+            for (int i = 0; i <= endDateIndex; i++) {
+
+                // Adds every entry on and past start date to arraylist
+                entriesWithinStartEndDates.add(getArrayOfAllTransactions().get(i));
+            }
+
+            // Returns arraylist of all entries on and past start date
+            filteredList = entriesWithinStartEndDates;
+        }
+
+    // DESCRIPTION SECTION ----------------------------------------------------------------------------------------------
+
+        // Returns full transaction list if user inputs nothing
+        if (!(description.isBlank())){
+
+            // Initializes index recorder to locate start date (in csv file) index recorder
+            int descIndex = filteredList.size();
+
+            // Loops through every transaction in the filtered list
+            for (int i = 0; i < filteredList.size(); i++) {
+
+                // If the current entry's start date is equal to inputted end date; record its index
+                if (filteredList.get(i).equalsIgnoreCase(description)) {
+                    descIndex = i;
+                }
+            }
+
+            // Initializes arraylist to hold entries on and past start date
+            ArrayList<String> entriesMatchingDesc = new ArrayList<>();
+
+            // For every entry on end date and before
+            for (int i = 0; i < filteredList.size(); i++) {
+
+                // Adds every entry on and past start date to arraylist
+                entriesMatchingDesc.add(getArrayOfAllTransactions().get(i));
+            }
+
+            // Returns arraylist of all entries on and past start date
+            filteredList = entriesMatchingDesc;
+        }
+
+    // VENDOR SECTION ----------------------------------------------------------------------------------------------
+
+        // Returns full transaction list if user inputs nothing
+        if (!(vendor.isBlank())){
+
+            // Initializes index recorder to locate start date (in csv file) index recorder
+            int vendorIndex = filteredList.size();
+
+            // Loops through every transaction in the filtered list
+            for (int i = 0; i < filteredList.size(); i++) {
+
+                // If the current entry's start date is equal to inputted end date; record its index
+                if (filteredList.get(i).equalsIgnoreCase(vendor)) {
+                    vendorIndex = i;
+                }
+            }
+
+            // Initializes arraylist to hold entries on and past start date
+            ArrayList<String> entriesMatchingVendor = new ArrayList<>();
+
+            // For every entry on end date and before
+            for (int i = 0; i < filteredList.size(); i++) {
+
+                // Adds every entry on and past start date to arraylist
+                entriesMatchingVendor.add(getArrayOfAllTransactions().get(i));
+            }
+
+            // Returns arraylist of all entries on and past start date
+            filteredList = entriesMatchingVendor;
+        }
+
+        // AMOUNT SECTION ----------------------------------------------------------------------------------------------
+
+        double doubledAmount = Double.parseDouble(amount);
+
+        // Returns full transaction list if user inputs nothing
+        if (!(amount.isBlank())){
+
+            // Initializes index recorder to locate start date (in csv file) index recorder
+            int amountIndex = filteredList.size();
+
+            // Loops through every transaction in the filtered list
+            for (int i = 0; i < filteredList.size(); i++) {
+
+                // If the current entry's start date is equal to inputted end date; record its index
+                if (Double.parseDouble(filteredList.get(i)) == doubledAmount) {
+                    amountIndex = i;
+                }
+            }
+
+            // Initializes arraylist to hold entries on and past start date
+            ArrayList<String> entriesMatchingAmount = new ArrayList<>();
+
+            // For every entry on end date and before
+            for (int i = 0; i < filteredList.size(); i++) {
+
+                // Adds every entry on and past start date to arraylist
+                entriesMatchingAmount.add(getArrayOfAllTransactions().get(i));
+            }
+
+            // Returns arraylist of all entries on and past start date
+            filteredList = entriesMatchingAmount;
+        }
+
+
+        return filteredList;
 
     }
 }
