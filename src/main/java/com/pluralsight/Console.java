@@ -3,6 +3,7 @@ package com.pluralsight;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -17,11 +18,13 @@ public class Console {
 
         // Displays home screen options; prompts user for choice
         System.out.print("""
-                ~ Welcome to the Accounting Ledger! How can I help you...
+                ========== Welcome to the Accounting Ledger! ==========
+                How can I help you...
                    (D) Add a Deposit
                    (P) Make a Payment (Debit)
                    (L) View Ledger
                    (X) Exit
+                =======================================================
                 
                 Your choice:\s""");
 
@@ -37,13 +40,13 @@ public class Console {
             printDelayedEllipsis();
 
             // Prompts for and stores info from user for a deposit
-            System.out.print("Please enter the deposit information below: \n");
+            System.out.print("~ Please enter the deposit information below: \n");
 
             // Adds transaction (a deposit) to ledger
             Transaction.addTransaction(getUserTransaction());
 
             // Confirmation message
-            System.out.print("Deposit successfully added! Returning to home screen");
+            System.out.print("Deposit successfully added! Returning to the home screen");
             printDelayedEllipsis();
 
             // Re-displays home screen
@@ -58,7 +61,7 @@ public class Console {
             printDelayedEllipsis();
 
             // Prompts for and stores info from user for a deposit
-            System.out.print("Please enter the debit information below: \n");
+            System.out.print("~ Please enter the debit information below: \n");
 
             // Converts the transaction's amount to negative
             Transaction transaction = getUserTransaction();     // Prompts user for a transaction
@@ -114,12 +117,14 @@ public class Console {
 
         // Displays ledger options; prompts user for choice
         System.out.print("""
+                ===================== Ledger Page =====================
                 Please select what you'd like to do next:
                    (A) All
                    (D) Deposits
                    (P) Payments
                    (R) Reports
                    (H) Home
+               =======================================================
                
                 Your choice:\s""");
 
@@ -143,7 +148,7 @@ public class Console {
             System.out.println(); // Skips a line
 
             // Confirmation message
-            System.out.println("Returning to ledger page");
+            System.out.print("Returning to ledger page");
             printDelayedEllipsis();
 
             // Re-displays ledger
@@ -178,7 +183,7 @@ public class Console {
             System.out.println(); // Skips a line
 
             // Confirmation message
-            System.out.println("Returning to ledger page");
+            System.out.print("Returning to ledger page");
             printDelayedEllipsis();
 
             // Re-displays ledger
@@ -213,7 +218,7 @@ public class Console {
             System.out.println(); // Skips a line
 
             // Confirmation message
-            System.out.println("Returning to ledger page");
+            System.out.print("Returning to ledger page");
             printDelayedEllipsis();
 
             // Re-displays ledger
@@ -227,7 +232,6 @@ public class Console {
             System.out.print("\nYou have selected \"Reports\"");
             printDelayedEllipsis();
 
-            System.out.println(); // Skips line
             displayReports();  // Displays reports
         }
 
@@ -262,6 +266,7 @@ public class Console {
 
         // Displays report options; prompts user for choice
         System.out.print("""
+                ===================== Reports Page =====================
                 Please select what you'd like to do next:
                    (1) Month To Date
                    (2) Previous Month
@@ -270,6 +275,7 @@ public class Console {
                    (5) Search by Vendor
                    (6) Custom Search
                    (0) Back
+                =======================================================
                 
                 Your choice:\s""");
 
@@ -282,7 +288,7 @@ public class Console {
         if (userChoice == 1) {
 
             // Echos user's selection
-            System.out.print("\nYou have selected \"Month to Date\"");
+            System.out.print("\nDisplaying transactions by Month to Date");
             printDelayedEllipsis();
 
             // Initializes string array to store elements of parsed line
@@ -323,7 +329,7 @@ public class Console {
         else if (userChoice == 2) {
 
             // Echos user's selection
-            System.out.print("\nYou have selected \"Previous Month\"");
+            System.out.print("\nDisplaying transactions by Previous Month");
             printDelayedEllipsis();
 
             // Initializes string array to store elements of parsed line
@@ -364,7 +370,7 @@ public class Console {
         else if (userChoice == 3) {
 
             // Echos user's selection
-            System.out.print("\nYou have selected \"Year to Date\"");
+            System.out.print("\nDisplaying transactions by Year to Date");
             printDelayedEllipsis();
 
             // Initializes string array to store elements of parsed line
@@ -405,7 +411,7 @@ public class Console {
         else if (userChoice == 4) {
 
             // Echos user's selection
-            System.out.print("\nYou have selected \"Previous Year\"");
+            System.out.print("\nDisplaying transactions by Previous Year");
             printDelayedEllipsis();
 
             // Initializes string array to store elements of parsed line
@@ -429,6 +435,8 @@ public class Console {
                 }
             }
 
+            System.out.println();
+
             // Confirmation message
             System.out.print("Returning to reports page");
             printDelayedEllipsis();
@@ -441,7 +449,7 @@ public class Console {
         else if (userChoice == 5) {
 
             // Echos user's selection
-            System.out.print("\nYou have selected \"Search by Vendor\"");
+            System.out.print("\nDisplaying transactions by selected Vendor");
             printDelayedEllipsis();
 
             // Prompts user for vendor name
@@ -481,11 +489,11 @@ public class Console {
             displayReports();
         }
 
-        // Upon input 6,
+        // Upon input 6, custom search
         else if (userChoice == 6) {
 
             // Echos user's selection
-            System.out.print("\nYou have selected \"Custom Search\"");
+            System.out.print("\nDisplaying transactions by Custom Search criteria");
             printDelayedEllipsis();
 
             // Prompts for and stores info from user for a deposit
@@ -546,7 +554,7 @@ public class Console {
         try {
             for (int i = 0; i < 3; i++) {
                 System.out.print(".");     // Prints three periods (an ellipsis)
-                Thread.sleep(315);   // Delays printing of each period
+                Thread.sleep(300);   // Delays printing of each period
             }
 
             System.out.println("\n");          // Skips two lines
