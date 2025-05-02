@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Console {
 
@@ -84,9 +85,6 @@ public class Console {
                 displayHomeScreen();
             }
 
-            else {
-                return;
-            }
         }
 
     }
@@ -107,132 +105,108 @@ public class Console {
         // Stores user's choice
         String userChoice = scanner.nextLine();
 
-        // READS IN CSV FILE
-        try {
+        // EXECUTES SELECTED TASK
+        // Upon A selection,  displays all entries
+        if(userChoice.equalsIgnoreCase("A")) {
 
-            // Creates FileReader object connected to csv file
-            FileReader filereader = new FileReader("src/main/resources/transactions.csv");
-            // Creates BufferedReader object connected
-            BufferedReader bufReader = new BufferedReader(filereader);
-
-            // Initializes variable for holding input
-            String input;
-
-            // EXECUTES SELECTED TASK
-            // Upon A selection,  displays all entries
-            if(userChoice.equalsIgnoreCase("A")) {
-
-                // Echos user's selection
-                System.out.print("\nYou have selected \"View All Entries\"");
-                printDelayedEllipsis();
-
-                // Reads until there are no more lines of data
-                while((input = bufReader.readLine()) != null){
-                    System.out.println(input); // Prints each line
-                }
-            }
-
-            // Upon D selection, displays all deposits
-            else if (userChoice.equalsIgnoreCase("D")) {
-
-                // Echos user's selection
-                System.out.print("\nYou have selected \"View Deposits\"");
-                printDelayedEllipsis();
-
-                // Initializes string array to store elements of parsed line
-                String[] parsedLine;
-
-                // Reads until there are no more lines of data
-                while((input = bufReader.readLine()) != null){
-
-                    // Parses line by pipe symbol
-                    parsedLine = input.split("\\|");
-
-                    // Converts amount from string to double
-                    double parsedAmount = Double.parseDouble(parsedLine[4]);
-
-                    // If transaction is a deposit (i.e. its amount is positive), displays it
-                    if(parsedAmount > 0){
-                        System.out.println(input);
-                    }
-                }
-            }
-
-            // Upon P selection, displays all payments
-            else if (userChoice.equalsIgnoreCase("P")) {
-
-                // Echos user's selection
-                System.out.print("\nYou have selected \"View Payments\"");
-                printDelayedEllipsis();
-
-                // Initializes string array to store elements of parsed line
-                String[] parsedLine;
-
-                // Reads until there are no more lines of data
-                while((input = bufReader.readLine()) != null){
-
-                    // Parses line by pipe symbol
-                    parsedLine = input.split("\\|");
-
-                    // Converts amount from string to double
-                    double parsedAmount = Double.parseDouble(parsedLine[4]);
-
-                    // If transaction is a deposit (i.e. its amount is positive), displays it
-                    if(parsedAmount < 0){
-                        System.out.println(input);
-                    }
-                }
-            }
-
-            // Upon R selection, displays reports or runs a custom search
-            else if (userChoice.equalsIgnoreCase("R")) {
-
-                // Echos user's selection
-                System.out.print("\nYou have selected \"Reports\"");
-                printDelayedEllipsis();
-
-                System.out.println(); // Skips line
-                displayReports();  // Displays reports
-            }
-
-            // Upon H selection, displays home screen again
-            else if (userChoice.equalsIgnoreCase("H")) {
-
-                // Echos user's selection
-                System.out.print("\nYou have selected \"Home\"");
-                printDelayedEllipsis();
-
-                System.out.println(); // Skips line
-                displayHomeScreen();  // Displays home screen
-            }
-
-            // Upon any incorrect input, error message and re-displays options
-            else {
-
-                // If user wants to try again; redirects back to ledger screen
-                if (offerRetryOption()){
-                    // Goes back to ledger
-                    displayLedger();
-                }
-
-                // Otherwise, exits
-                else {
-                    return;
-                }
-
-            }
-
-            // Closes bufReader; release resources
-            bufReader.close();
-        }
-
-        // Prints error message upon encountering an error
-        catch (IOException e){
-
-            System.out.println("Oops! There's been an error fetching the ledger. Please give me a moment");
+            // Echos user's selection
+            System.out.print("\nYou have selected \"View All Entries\"");
             printDelayedEllipsis();
-            displayLedger();    // Tries again to display ledger
+
+            // Prints every transaction in the csv file in reverse (newest on top)
+            for (int i = getArrayOfAllTransactions().size() - 1; i >= 0; i--){ // Goes from most recent entry to the oldest entry
+                System.out.println(getArrayOfAllTransactions().get(i)); // Prints each line
+            }
+
         }
+
+        // Upon D selection, displays all deposits
+        else if (userChoice.equalsIgnoreCase("D")) {
+
+            // Echos user's selection
+            System.out.print("\nYou have selected \"View Deposits\"");
+            printDelayedEllipsis();
+
+            // Initializes string array to store elements of parsed line
+            String[] parsedLine;
+
+            // Prints every transaction in the csv file in reverse (newest on top)
+            for (int i = getArrayOfAllTransactions().size() - 1; i >= 0; i--){ // Goes from most recent entry to the oldest entry
+
+                // Parses line by pipe symbol
+                parsedLine = getArrayOfAllTransactions().get(i).split("\\|");
+
+                // Converts amount from string to double
+                double parsedAmount = Double.parseDouble(parsedLine[4]);
+
+                // If transaction is a deposit (i.e. its amount is positive), displays it
+                if(parsedAmount > 0){
+                    System.out.println(getArrayOfAllTransactions().get(i));
+                }
+            }
+        }
+
+        // Upon P selection, displays all payments
+        else if (userChoice.equalsIgnoreCase("P")) {
+
+            // Echos user's selection
+            System.out.print("\nYou have selected \"View Payments\"");
+            printDelayedEllipsis();
+
+            // Initializes string array to store elements of parsed line
+            String[] parsedLine;
+
+            // Prints every transaction in the csv file in reverse (newest on top)
+            for (int i = getArrayOfAllTransactions().size() - 1; i >= 0; i--){ // Goes from most recent entry to the oldest entry
+
+                // Parses line by pipe symbol
+                parsedLine = getArrayOfAllTransactions().get(i).split("\\|");
+
+                // Converts amount from string to double
+                double parsedAmount = Double.parseDouble(parsedLine[4]);
+
+                // If transaction is a deposit (i.e. its amount is positive), displays it
+                if(parsedAmount < 0){
+                    System.out.println(getArrayOfAllTransactions().get(i));
+                }
+            }
+        }
+
+        // Upon R selection, displays reports screen
+        else if (userChoice.equalsIgnoreCase("R")) {
+
+            // Echos user's selection
+            System.out.print("\nYou have selected \"Reports\"");
+            printDelayedEllipsis();
+
+            System.out.println(); // Skips line
+            displayReports();  // Displays reports
+        }
+
+        // Upon H selection, displays home screen again
+        else if (userChoice.equalsIgnoreCase("H")) {
+
+            // Echos user's selection
+            System.out.print("\nYou have selected \"Home\"");
+            printDelayedEllipsis();
+
+            System.out.println(); // Skips line
+            displayHomeScreen();  // Displays home screen
+        }
+
+        // Upon any incorrect input, error message and re-displays options
+        else {
+
+            // If user wants to try again; redirects back to ledger screen
+            if (offerRetryOption()){
+                // Goes back to ledger
+                displayLedger();
+            }
+
+            // Otherwise, exits
+
+        }
+
     }
 
     // Displays reports; then displays the selected option
@@ -477,9 +451,9 @@ public class Console {
                 if (offerRetryOption()) {
                     // Goes back to home screen
                     displayHomeScreen();
-                } else {
-                    return;
                 }
+
+                // Otherwise, exits
             }
         }
 
@@ -558,4 +532,43 @@ public class Console {
 
     }
 
+    private static ArrayList<String> getArrayOfAllTransactions(){
+
+        ArrayList<String> arrayOfAllTransactions = new ArrayList<>();
+
+        // READS IN CSV FILE
+        try {
+
+            // Creates FileReader object connected to csv file
+            FileReader filereader = new FileReader("src/main/resources/transactions.csv");
+            // Creates BufferedReader object connected
+            BufferedReader bufReader = new BufferedReader(filereader);
+
+            // Initializes variable for holding input
+            String input;
+
+
+            // Reads until there are no more lines of data
+            while((input = bufReader.readLine()) != null){
+                arrayOfAllTransactions.add(input); // Adds each line (transaction) to array of transactions
+            }
+
+            // Closes bufReader; release resources
+            bufReader.close();
+
+        }
+
+        // Prints error message upon encountering an error
+        catch (IOException e){
+
+            System.out.println("Oops! There's been an error fetching the ledger. Please give me a moment");
+            printDelayedEllipsis();
+            displayLedger();    // Tries again to display ledger
+        }
+
+
+        // Returns array of all transactions (as strings) in the csv file
+        return arrayOfAllTransactions;
+
+    }
 }
