@@ -40,6 +40,13 @@ public class Console {
 
             // Adds transaction (a deposit) to ledger
             Transaction.addTransaction(getUserTransaction());
+
+            // Confirmation message
+            System.out.print("Deposit successfully added! Returning to home screen");
+            printDelayedEllipsis();
+
+            // Re-displays home screen
+            displayHomeScreen();
         }
 
         // Upon P selection, performs a payment
@@ -59,6 +66,13 @@ public class Console {
 
             // Adds transaction (a payment) to ledger
             Transaction.addTransaction(transaction);
+
+            // Confirmation message
+            System.out.print("Payment saved! Returning to home screen");
+            printDelayedEllipsis();
+
+            // Re-displays home screen
+            displayHomeScreen();
         }
 
         // Upon L selection, displays ledger screen
@@ -68,6 +82,7 @@ public class Console {
             System.out.print("\nYou have selected \"View Ledger\"");
             printDelayedEllipsis();
 
+            // Brings user to ledger screen
             displayLedger();
         }
 
@@ -75,17 +90,21 @@ public class Console {
         else if (userChoice.equalsIgnoreCase("X")) {
             // Echos user choice
             System.out.println("\n~ Thank you for stopping by, and have a wonderful rest of your day!");
+
+            // Exits app
         }
 
         // Upon any incorrect input, error message and re-displays options
         else {
 
+            // If user does not want to retry
             if (offerRetryOption()){
-                // Goes back to home screen
+
+                // Re-displays home screen
                 displayHomeScreen();
             }
-
         }
+
 
     }
 
@@ -99,7 +118,9 @@ public class Console {
                    (D) Deposits
                    (P) Payments
                    (R) Reports
-                   (H) Home""");
+                   (H) Home
+               
+                Your choice:\s""");
 
 
         // Stores user's choice
@@ -118,6 +139,8 @@ public class Console {
                 System.out.println(getArrayOfAllTransactions().get(i)); // Prints each line
             }
 
+            // Re-displays ledger
+            displayLedger();
         }
 
         // Upon D selection, displays all deposits
@@ -144,6 +167,9 @@ public class Console {
                     System.out.println(getArrayOfAllTransactions().get(i));
                 }
             }
+
+            // Re-displays ledger
+            displayLedger();
         }
 
         // Upon P selection, displays all payments
@@ -170,6 +196,9 @@ public class Console {
                     System.out.println(getArrayOfAllTransactions().get(i));
                 }
             }
+
+            // Re-displays ledger
+            displayLedger();
         }
 
         // Upon R selection, displays reports screen
@@ -190,22 +219,22 @@ public class Console {
             System.out.print("\nYou have selected \"Home\"");
             printDelayedEllipsis();
 
-            System.out.println(); // Skips line
             displayHomeScreen();  // Displays home screen
         }
 
         // Upon any incorrect input, error message and re-displays options
         else {
 
-            // If user wants to try again; redirects back to ledger screen
+            // If user does not want to retry
             if (offerRetryOption()){
-                // Goes back to ledger
+                // Re-displays ledger
                 displayLedger();
             }
 
-            // Otherwise, exits
+            // Otherwise, exits app
 
         }
+
 
     }
 
@@ -221,7 +250,9 @@ public class Console {
                    (4) Previous Year
                    (5) Search by Vendor
                    (6) Custom Search
-                   (0) Back""");
+                   (0) Back
+                
+                Your choice:\s""");
 
         // Initializes variable for holding input
         int userChoice = scanner.nextInt();
@@ -496,6 +527,8 @@ public class Console {
             System.out.print("   Amount: ");
             double amount = scanner.nextDouble();
             scanner.nextLine();
+
+            System.out.println(); // Skips a line
 
     // Constructs a Transaction using prompt details; returns the Transaction
         return new Transaction(description, vendor, amount);
