@@ -3,6 +3,7 @@ package com.pluralsight;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -112,7 +113,7 @@ public class Console {
     public static void displayLedger(){
 
         // Displays ledger options; prompts user for choice
-        System.out.println("""
+        System.out.print("""
                 Please select what you'd like to do next:
                    (A) All
                    (D) Deposits
@@ -134,10 +135,16 @@ public class Console {
             System.out.print("\nYou have selected \"View All Entries\"");
             printDelayedEllipsis();
 
-            // Prints every transaction in the csv file in reverse (newest on top)
-            for (int i = getArrayOfAllTransactions().size() - 1; i >= 0; i--){ // Goes from most recent entry to the oldest entry
+            // Prints every transaction in the csv file in reverse (newest on top) -- from recent to oldest
+            for (int i = getArrayOfAllTransactions().size() - 1; i >= 0; i--){
                 System.out.println(getArrayOfAllTransactions().get(i)); // Prints each line
             }
+
+            System.out.println(); // Skips a line
+
+            // Confirmation message
+            System.out.println("Returning to ledger page");
+            printDelayedEllipsis();
 
             // Re-displays ledger
             displayLedger();
@@ -153,8 +160,8 @@ public class Console {
             // Initializes string array to store elements of parsed line
             String[] parsedLine;
 
-            // Prints every transaction in the csv file in reverse (newest on top)
-            for (int i = getArrayOfAllTransactions().size() - 1; i >= 0; i--){ // Goes from most recent entry to the oldest entry
+            // Prints every transaction in the csv file in reverse (newest on top) -- from recent to oldest
+            for (int i = getArrayOfAllTransactions().size() - 1; i >= 0; i--){
 
                 // Parses line by pipe symbol
                 parsedLine = getArrayOfAllTransactions().get(i).split("\\|");
@@ -167,6 +174,12 @@ public class Console {
                     System.out.println(getArrayOfAllTransactions().get(i));
                 }
             }
+
+            System.out.println(); // Skips a line
+
+            // Confirmation message
+            System.out.println("Returning to ledger page");
+            printDelayedEllipsis();
 
             // Re-displays ledger
             displayLedger();
@@ -182,8 +195,8 @@ public class Console {
             // Initializes string array to store elements of parsed line
             String[] parsedLine;
 
-            // Prints every transaction in the csv file in reverse (newest on top)
-            for (int i = getArrayOfAllTransactions().size() - 1; i >= 0; i--){ // Goes from most recent entry to the oldest entry
+            // Prints every transaction in the csv file in reverse (newest on top) -- from recent to oldest
+            for (int i = getArrayOfAllTransactions().size() - 1; i >= 0; i--){
 
                 // Parses line by pipe symbol
                 parsedLine = getArrayOfAllTransactions().get(i).split("\\|");
@@ -196,6 +209,12 @@ public class Console {
                     System.out.println(getArrayOfAllTransactions().get(i));
                 }
             }
+
+            System.out.println(); // Skips a line
+
+            // Confirmation message
+            System.out.println("Returning to ledger page");
+            printDelayedEllipsis();
 
             // Re-displays ledger
             displayLedger();
@@ -242,7 +261,7 @@ public class Console {
     public static void displayReports(){
 
         // Displays report options; prompts user for choice
-        System.out.println("""
+        System.out.print("""
                 Please select what you'd like to do next:
                    (1) Month To Date
                    (2) Previous Month
@@ -258,243 +277,267 @@ public class Console {
         int userChoice = scanner.nextInt();
         scanner.nextLine();
 
-        try {
 
-            // Creates FileReader object connected to csv file
-            FileReader filereader = new FileReader("src/main/resources/transactions.csv");
-            // Creates BufferedReader object connected
-            BufferedReader bufReader = new BufferedReader(filereader);
+        // Upon input 1 (Month to Date), shows all transactions from the start of the current month up to today
+        if (userChoice == 1) {
 
-            // Initializes variable for holding input
-            String input;
-
-            // Upon input 1 (Month to Date), shows all transactions from the start of the current month up to today
-            if (userChoice == 1) {
-
-                // Echos user's selection
-                System.out.print("\nYou have selected \"Month to Date\"");
-                printDelayedEllipsis();
-
-                // Initializes string array to store elements of parsed line
-                String[] parsedLine;
-
-                // Reads until there are no more lines of data
-                while((input = bufReader.readLine()) != null){
-
-                    // Parses line by pipe symbol
-                    parsedLine = input.split("\\|");
-
-                    // Selects date from parsed line; parses date by dash symbol
-                    String[] parsedDate = parsedLine[0].split("-");
-
-                    // Selects year from parsed date; converts it to an int (for comparing)
-                    int year = Integer.parseInt(parsedDate[0]);
-
-                    // Selects month from parsed date; converts it to an int (for comparing)
-                    int month = Integer.parseInt(parsedDate[1]);
-
-                    // If transaction's year & month are the current year & month, print the transaction
-                    if (year == (LocalDate.now()).getYear() && month == (LocalDate.now()).getMonthValue()){   // LocalDate.now() required as an instance for getMonth to be called
-                        System.out.println(input);
-                    }
-                }
-            }
-
-            // Upon input 2 (Previous Month), shows all transactions that occurred during the entire month before the current one
-            else if (userChoice == 2) {
-
-                // Echos user's selection
-                System.out.print("\nYou have selected \"Previous Month\"");
-                printDelayedEllipsis();
-
-                // Initializes string array to store elements of parsed line
-                String[] parsedLine;
-
-                // Reads until there are no more lines of data
-                while((input = bufReader.readLine()) != null){
-
-                    // Parses line by pipe symbol
-                    parsedLine = input.split("\\|");
-
-                    // Selects date from parsed line; parses date by dash symbol
-                    String[] parsedDate = parsedLine[0].split("-");
-
-                    // Selects year from parsed date; converts it to an int (for comparing)
-                    int year = Integer.parseInt(parsedDate[0]);
-
-                    // Selects month from parsed date; converts it to an int
-                    int month = Integer.parseInt(parsedDate[1]);
-
-                    // If transaction's year is current year & month is previous month, print the transaction
-                    if (year == (LocalDate.now()).getYear() && month == ((LocalDate.now()).getMonthValue()) - 1){   // LocalDate.now() required as an instance for getMonth to be called
-                        System.out.println(input);
-                    }
-                }
-            }
-
-            // Upon input 3 (Year to Date), shows all transactions from January 1 of the current year up to today
-            else if (userChoice == 3) {
-
-                // Echos user's selection
-                System.out.print("\nYou have selected \"Year to Date\"");
-                printDelayedEllipsis();
-
-                // Initializes string array to store elements of parsed line
-                String[] parsedLine;
-
-                // Reads until there are no more lines of data
-                while((input = bufReader.readLine()) != null){
-
-                    // Parses line by pipe symbol
-                    parsedLine = input.split("\\|");
-
-                    // Selects date from parsed line; parses date by dash symbol
-                    String[] parsedDate = parsedLine[0].split("-");
-
-                    // Selects year from parsed date; converts it to an int (for comparing)
-                    int year = Integer.parseInt(parsedDate[0]);
-
-                    // Selects month from parsed date; converts it to an int (for comparing)
-                    int month = Integer.parseInt(parsedDate[1]);
-
-                    // If transaction's year is current year & month is January (1), print the transaction
-                    if (year == (LocalDate.now()).getYear() && month == 1){   // LocalDate.now() required as an instance for getMonth to be called
-                        System.out.println(input);
-                    }
-                }
-            }
-
-            // Upon input 4 (Previous Year), shows all transactions from the full previous calendar year
-            else if (userChoice == 4) {
-
-                // Echos user's selection
-                System.out.print("\nYou have selected \"Previous Year\"");
-                printDelayedEllipsis();
-
-                // Initializes string array to store elements of parsed line
-                String[] parsedLine;
-
-                // Reads until there are no more lines of data
-                while((input = bufReader.readLine()) != null){
-
-                    // Parses line by pipe symbol
-                    parsedLine = input.split("\\|");
-
-                    // Selects date from parsed line; parses date by dash symbol
-                    String[] parsedDate = parsedLine[0].split("-");
-
-                    // Selects year from parsed date; converts it to an int (for comparing)
-                    int year = Integer.parseInt(parsedDate[0]);
-
-                    // If transaction's year is previous year
-                    if (year == ((LocalDate.now()).getYear()) - 1){   // LocalDate.now() required as an instance for getMonth to be called
-                        System.out.println(input);
-                    }
-                }
-            }
-
-            // Upon input 5 (Search by Vendor), prompt the user for the vendor name and displays all entries for that vendor
-            else if (userChoice == 5) {
-
-                // Echos user's selection
-                System.out.print("\nYou have selected \"Search by Vendor\"");
-                printDelayedEllipsis();
-
-                // Prompts user for vendor name
-                System.out.print("What is the name of the vendor you would like to search by?: ");
-                String chosenVendor = scanner.nextLine();
-                System.out.println(); // Skip line
-
-                // Echos user's vendor selection
-                System.out.print("Got it! Displaying results for " + chosenVendor);
-                printDelayedEllipsis();
-
-                // Initializes string array to store elements of parsed line
-                String[] parsedLine;
-
-                // Reads until there are no more lines of data
-                while((input = bufReader.readLine()) != null){
-
-                    // Parses line by pipe symbol
-                    parsedLine = input.split("\\|");
-
-                    // Selects date from parsed line; parses date by dash symbol
-                    String vendor = parsedLine[3];
-
-                    // If transaction's year is previous year
-                    if (vendor.equalsIgnoreCase(chosenVendor)){   // LocalDate.now() required as an instance for getMonth to be called
-                        System.out.println(input);
-                    }
-                }
-            }
-
-            // Upon input 6,
-            else if (userChoice == 6) {
-
-                // Echos user's selection
-                System.out.print("\nYou have selected \"Custom Search\"");
-                printDelayedEllipsis();
-
-                // Prompts for and stores info from user for a deposit
-                System.out.println("Please fill any details you'd like to search by below: (press Enter to skip)");
-
-                System.out.print("Start Date: ");
-                String startDate = scanner.nextLine();
-
-                System.out.print("End Date: ");
-                String endDate = scanner.nextLine();
-
-                System.out.print("Description: ");
-                String description = scanner.nextLine();
-
-                System.out.print("Vendor: ");
-                String vendor = scanner.nextLine();
-
-                System.out.print("Amount: ");
-                String amount = scanner.nextLine();
-
-                // If amount is not an empty string (""), convert it into a double
-
-                // Confirmation message
-                System.out.print("Got it! Filtering transactions");
-                printDelayedEllipsis();
-
-
-
-
-
-            }
-
-            // Upon input 0, re-displays reports page
-            else if (userChoice == 0) {
-
-                // Echos user's selection
-                System.out.print("\nReturning to the ledger page!");
-                printDelayedEllipsis();
-
-                // Displays ledger
-                displayLedger();
-            }
-
-            // Upon any incorrect input, error message and re-displays options
-            else {
-
-                if (offerRetryOption()) {
-                    // Goes back to home screen
-                    displayHomeScreen();
-                }
-
-                // Otherwise, exits
-            }
-        }
-
-        // Prints error message upon encountering an error
-        catch (IOException e){
-
-            System.out.println("Oops! There's been an error fetching the reports. Please give me a moment");
+            // Echos user's selection
+            System.out.print("\nYou have selected \"Month to Date\"");
             printDelayedEllipsis();
-            displayReports();    // Tries again to display reports
+
+            // Initializes string array to store elements of parsed line
+            String[] parsedLine;
+
+            // Prints every transaction in the csv file in reverse (newest on top) -- from recent to oldest
+            for (int i = getArrayOfAllTransactions().size() - 1; i >= 0; i--){
+
+                // Parses line by pipe symbol
+                parsedLine = getArrayOfAllTransactions().get(i).split("\\|");
+
+                // Selects date from parsed line; parses date by dash symbol
+                String[] parsedDate = parsedLine[0].split("-");
+
+                // Selects year from parsed date; converts it to an int (for comparing)
+                int year = Integer.parseInt(parsedDate[0]);
+
+                // Selects month from parsed date; converts it to an int (for comparing)
+                int month = Integer.parseInt(parsedDate[1]);
+
+                // If transaction's year & month are the current year & month, print the transaction
+                if (year == (LocalDate.now()).getYear() && month == (LocalDate.now()).getMonthValue()){   // LocalDate.now() required as an instance for getMonth to be called
+                    System.out.println(getArrayOfAllTransactions().get(i));
+                }
+            }
+
+            System.out.println(); // Skips a line
+
+            // Confirmation message
+            System.out.print("Returning to reports page");
+            printDelayedEllipsis();
+
+            // Re-displays reports screen
+            displayReports();
         }
+
+        // Upon input 2 (Previous Month), shows all transactions that occurred during the entire month before the current one
+        else if (userChoice == 2) {
+
+            // Echos user's selection
+            System.out.print("\nYou have selected \"Previous Month\"");
+            printDelayedEllipsis();
+
+            // Initializes string array to store elements of parsed line
+            String[] parsedLine;
+
+            // Prints every transaction in the csv file in reverse (newest on top) -- from recent to oldest
+            for (int i = getArrayOfAllTransactions().size() - 1; i >= 0; i--){
+
+                // Parses line by pipe symbol
+                parsedLine = getArrayOfAllTransactions().get(i).split("\\|");
+
+                // Selects date from parsed line; parses date by dash symbol
+                String[] parsedDate = parsedLine[0].split("-");
+
+                // Selects year from parsed date; converts it to an int (for comparing)
+                int year = Integer.parseInt(parsedDate[0]);
+
+                // Selects month from parsed date; converts it to an int
+                int month = Integer.parseInt(parsedDate[1]);
+
+                // If transaction's year is current year & month is previous month, print the transaction
+                if (year == (LocalDate.now()).getYear() && month == ((LocalDate.now()).getMonthValue()) - 1){   // LocalDate.now() required as an instance for getMonth to be called
+                    System.out.println(getArrayOfAllTransactions().get(i));
+                }
+            }
+
+            System.out.println(); // Skips a line
+
+            // Confirmation message
+            System.out.print("Returning to reports page");
+            printDelayedEllipsis();
+
+            // Re-displays reports screen
+            displayReports();
+        }
+
+        // Upon input 3 (Year to Date), shows all transactions from January 1 of the current year up to today
+        else if (userChoice == 3) {
+
+            // Echos user's selection
+            System.out.print("\nYou have selected \"Year to Date\"");
+            printDelayedEllipsis();
+
+            // Initializes string array to store elements of parsed line
+            String[] parsedLine;
+
+            // Prints every transaction in the csv file in reverse (newest on top) -- from recent to oldest
+            for (int i = getArrayOfAllTransactions().size() - 1; i >= 0; i--){
+
+                // Parses line by pipe symbol
+                parsedLine = getArrayOfAllTransactions().get(i).split("\\|");
+
+                // Selects date from parsed line; parses date by dash symbol
+                String[] parsedDate = parsedLine[0].split("-");
+
+                // Selects year from parsed date; converts it to an int (for comparing)
+                int year = Integer.parseInt(parsedDate[0]);
+
+                // Selects month from parsed date; converts it to an int (for comparing)
+                int month = Integer.parseInt(parsedDate[1]);
+
+                // If transaction's year is current year & month is January (1), print the transaction
+                if (year == (LocalDate.now()).getYear() && month == 1){   // LocalDate.now() required as an instance for getMonth to be called
+                    System.out.println(getArrayOfAllTransactions().get(i));
+                }
+            }
+
+            System.out.println(); // Skips a line
+
+            // Confirmation message
+            System.out.print("Returning to reports page");
+            printDelayedEllipsis();
+
+            // Re-displays reports screen
+            displayReports();
+        }
+
+        // Upon input 4 (Previous Year), shows all transactions from the full previous calendar year
+        else if (userChoice == 4) {
+
+            // Echos user's selection
+            System.out.print("\nYou have selected \"Previous Year\"");
+            printDelayedEllipsis();
+
+            // Initializes string array to store elements of parsed line
+            String[] parsedLine;
+
+            // Prints every transaction in the csv file in reverse (newest on top) -- from recent to oldest
+            for (int i = getArrayOfAllTransactions().size() - 1; i >= 0; i--){
+
+                // Parses line by pipe symbol
+                parsedLine = getArrayOfAllTransactions().get(i).split("\\|");
+
+                // Selects date from parsed line; parses date by dash symbol
+                String[] parsedDate = parsedLine[0].split("-");
+
+                // Selects year from parsed date; converts it to an int (for comparing)
+                int year = Integer.parseInt(parsedDate[0]);
+
+                // If transaction's year is previous year
+                if (year == ((LocalDate.now()).getYear()) - 1){   // LocalDate.now() required as an instance for getMonth to be called
+                    System.out.println(getArrayOfAllTransactions().get(i));
+                }
+            }
+
+            // Confirmation message
+            System.out.print("Returning to reports page");
+            printDelayedEllipsis();
+
+            // Re-displays reports screen
+            displayReports();
+        }
+
+        // Upon input 5 (Search by Vendor), prompt the user for the vendor name and displays all entries for that vendor
+        else if (userChoice == 5) {
+
+            // Echos user's selection
+            System.out.print("\nYou have selected \"Search by Vendor\"");
+            printDelayedEllipsis();
+
+            // Prompts user for vendor name
+            System.out.print("What is the name of the vendor you would like to search by?: ");
+            String chosenVendor = scanner.nextLine();
+            System.out.println(); // Skip line
+
+            // Echos user's vendor selection
+            System.out.print("Got it! Displaying results for " + chosenVendor);
+            printDelayedEllipsis();
+
+            // Initializes string array to store elements of parsed line
+            String[] parsedLine;
+
+            // Prints every transaction in the csv file in reverse (newest on top) -- from recent to oldest
+            for (int i = getArrayOfAllTransactions().size() - 1; i >= 0; i--){
+
+                // Parses line by pipe symbol
+                parsedLine = getArrayOfAllTransactions().get(i).split("\\|");
+
+                // Selects date from parsed line; parses date by dash symbol
+                String vendor = parsedLine[3];
+
+                // If transaction's year is previous year
+                if (vendor.equalsIgnoreCase(chosenVendor)){   // LocalDate.now() required as an instance for getMonth to be called
+                    System.out.println(getArrayOfAllTransactions().get(i));
+                }
+            }
+
+            System.out.println(); // Skips a line
+
+            // Confirmation message
+            System.out.print("Returning to reports page");
+            printDelayedEllipsis();
+
+            // Re-displays reports screen
+            displayReports();
+        }
+
+        // Upon input 6,
+        else if (userChoice == 6) {
+
+            // Echos user's selection
+            System.out.print("\nYou have selected \"Custom Search\"");
+            printDelayedEllipsis();
+
+            // Prompts for and stores info from user for a deposit
+            System.out.println("Please fill any details you'd like to search by below: (press Enter to skip)");
+
+            System.out.print("Start Date: ");
+            String startDate = scanner.nextLine();
+
+            System.out.print("End Date: ");
+            String endDate = scanner.nextLine();
+
+            System.out.print("Description: ");
+            String description = scanner.nextLine();
+
+            System.out.print("Vendor: ");
+            String vendor = scanner.nextLine();
+
+            System.out.print("Amount: ");
+            String amount = scanner.nextLine();
+
+            // If amount is not an empty string (""), convert it into a double
+
+            // Confirmation message
+            System.out.print("Got it! Filtering transactions");
+            printDelayedEllipsis();
+
+
+        }
+
+        // Upon input 0, re-displays ledger page
+        else if (userChoice == 0) {
+
+            System.out.println(); // Skips a line
+            // Confirmation message
+            System.out.print("Returning to ledger page");
+            printDelayedEllipsis();
+
+            // Re-displays reports screen
+            displayLedger();
+        }
+
+        // Upon any incorrect input, error message and re-displays options
+        else {
+
+            if (offerRetryOption()) {
+                // Goes back to home screen
+                displayHomeScreen();
+            }
+
+            // Otherwise, exits
+        }
+
     }
 
 // HELPER METHODS
